@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Produtos</title>
+</head>
+<style>
+    body {
+        background-image: url('/static/img/FundoFormulariosIndex.jpg');
+        background-size: 100% 100%; /* cobre toda a tela */
+        background-position: center; /* centraliza a imagem */
+        background-repeat: no-repeat; /* não repete a imagem */
+        background-attachment: fixed; /* fixa a imagem na tela */
+        padding-top: 50px;
+    }
+
+    form {
+        background-color: rgba(128, 128, 128, 0.555);
+        width: 50%;
+        min-width: 350px;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    fieldset {
+        background-color: rgba(0, 0, 0, 0.76);
+        margin-bottom: 20px;
+        color: white;
+        font-weight: bold;
+    }
+
+    a {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+    }
+</style>
+
+<body>
+
+    <form>
+        <fieldset>
+            <legend>Lista de Produtos</legend>
+           
+                {% for produto in produtos %}
+              
+                    <p>Produto: {{ produto.nome }}</p> <br>
+                    <img src="{{produto.imagem.url}}" alt="{{produto.nome}}" width="200px">
+                    <p>Marca: {{ produto.marca }}</p> <br>
+                    <p>Valor R$: {{ produto.preco }} </p><br>
+                    <p>Quantidade: {{ produto.quantidade }}</p>
+                    <hr>
+                    <br><br>
+             
+                {% endfor %}
+            
+        </fieldset>
+        <a href="{% url 'index' %}"><input type="button" value="Voltar para o Menu"></a>
+    </form>
+</body>
+
+</html>

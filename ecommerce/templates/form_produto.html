@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Produtos</title>
+</head>
+<style>
+    body{
+        background-image: url('/static/img/FundoFormulariosIndex.jpg');
+        background-size: 100% 100%; /* cobre toda a tela */
+        background-position: center; /* centraliza a imagem */
+        background-repeat: no-repeat; /* não repete a imagem */
+        background-attachment: fixed; /* fixa a imagem na tela */
+        padding-top: 50px;
+    }
+    form {
+        background-color: rgba(128, 128, 128, 0.253);
+        width: 50%;
+        min-width: 350px;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4);
+        text-align: center;
+    }
+
+    fieldset {
+        background-color: rgba(0, 0, 0, 0.76);
+        text-align: center;
+        margin-bottom: 20px;
+        color: white;
+        font-weight: bold;
+    }
+
+</style>
+
+<body>
+    <form action="{% url 'form_produto' %}" method="post" enctype="multipart/form-data">
+        <!-- Inclui o token de segurança do Django para evitar ataques CSRF -->
+        {% csrf_token %}
+
+        <!-- <fieldset> agrupa campos relacionados -->
+        <fieldset>
+            <legend>Informações do Produto</legend>
+
+            <!-- <label> é um rótulo associado a um campo -->
+            <label for="nome">Produto:</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required><br><br>
+            
+            <label for="imagem">Imagem do produto:</label>
+            <input type="file" id="imagem" name="imagem" ><br><br>
+
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" name="marca"  required><br><br>
+
+            <label for="preco">Preco:</label>
+            <input type="number" id="preco" name="preco"  required><br><br>
+
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" id="quantidade" name="quantidade" required><br><br>
+
+        </fieldset>
+        <input type="submit" value="Cadastrar Produto">
+        <a href="{% url 'index' %}"><input type="button" value="Voltar para o Menu"></a>
+    </form>
+</body>
+
+</html>
