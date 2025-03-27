@@ -1,0 +1,84 @@
+<!-- dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<style>
+    /* dashboard.css */
+
+header nav ul li {
+    margin-right: 20px;
+}
+
+#botao-login {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#botao-login:hover {
+    background-color: #555;
+}
+
+#form-login {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+</style>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'lista_produtos' %}">Produtos</a></li>
+                <li><a href="{% url 'lista_clientes' %}">Clientes</a></li>
+                <li style="float: right;">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">Sair</a>
+                    {% else %}
+                        <button id="botao-login">Login</button>
+                        <div id="form-login" style="display: none;">
+                            <form method="post">
+                                {% csrf_token %}
+                                <label for="email">E-mail:</label>
+                                <input type="email" id="email" name="email"><br><br>
+                                <label for="senha">Senha:</label>
+                                <input type="password" id="senha" name="senha"><br><br>
+                                <button type="submit">Entrar</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Bem-vindo, administrador!</h1>
+        <p>Aqui você pode gerenciar os produtos e clientes do sistema.</p>
+    </main>
+
+    <script>
+        document.getElementById("botao-login").addEventListener("click", function(){
+            var formLogin = document.getElementById("form-login");
+            if (formLogin.style.display === "none") {
+                formLogin.style.display = "block";
+            } else {
+                formLogin.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>
