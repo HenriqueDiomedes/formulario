@@ -21,7 +21,6 @@ from ecommerce  import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('edit/', views.produtoEdit, name='produto_edit'),
     path('produto/', views.formProduto, name='form_produto'),
     path('produtos/', views.lista_Produtos, name='lista_produtos'),
     path('cliente/', views.formCliente, name='form_cliente'),

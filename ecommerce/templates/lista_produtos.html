@@ -10,14 +10,87 @@
 <style>
     body {
         background-image: url('/static/img/FundoFormulariosIndex.jpg');
-        background-size: 100% 100%; /* cobre toda a tela */
-        background-position: center; /* centraliza a imagem */
-        background-repeat: no-repeat; /* não repete a imagem */
-        background-attachment: fixed; /* fixa a imagem na tela */
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
         padding-top: 50px;
     }
 
-    form {
+
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .conteiner-fluido {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .conteiner-fluido a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 24px;
+    }
+
+    .conteiner-fluido button {
+        background-color: #333;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    #navbar-suport {
+        background-color: #444;
+        padding: 10px;
+    }
+
+    #navbar-suport ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #navbar-suport li {
+        margin-right: 20px;
+    }
+
+    #navbar-suport a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    #navbar-suport a:hover {
+        color: #ccc;
+    }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown ul {
+        display: none;
+        position: absolute;
+        background-color: #444;
+        padding: 10px;
+        border: 1px solid #555;
+    }
+
+    .dropdown:hover ul {
+        display: block;
+    }
+
+    .dropdown li {
+        margin-bottom: 10px;
+    }
+
+    .container-menu form {
         background-color: rgba(128, 128, 128, 0.555);
         width: 50%;
         min-width: 350px;
@@ -44,27 +117,56 @@
 </style>
 
 <body>
+    <header>
+        <div class="conteiner-fluido">
+            <a href="#">Produto</a>
+            <button type="button">
+                <span></span>
+            </button>
+        </div>
+        <div id="navbar-suport">
+            <ul>
+                <li class="item-nav">
+                    <a href="#">Início</a>
+                </li>
+                <li>
+                    <a href="#">Carrinho 🛒</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Mais</a>
+                </li>
+                <ul>
+                    <li>
+                        <a href="#">Pedidos</a>
+                    </li>
+                    <li>
+                        <a href="#">Clientes</a>
+                    </li>
+                    <li>
+                        <a href="#">Sobre Nós</a>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+
+    </header>
 
     <form>
         <fieldset>
             <legend>Lista de Produtos</legend>
-           
-                {% for produto in produtos %}
-              
-                    <p>Produto: {{ produto.nome }}</p> <br>
-                    <img src="{{produto.imagem.url}}" alt="{{produto.nome}}" width="200px">
-                    <p>Marca: {{ produto.marca }}</p> <br>
-                    <p>Valor R$: {{ produto.preco }} </p><br>
-                    <p>Quantidade: {{ produto.quantidade }}</p>
-                    <hr>
-                    <br><br>
-             
-                {% endfor %}
-            
+            {% for produto in produtos %}
+            <p>Produto: {{ produto.nome }}</p> <br>
+            <img src="{{produto.imagem.url}}" alt="{{produto.nome}}" width="200px">
+            <p>Descrição: {{ produto.descricao }}</p> <br>
+            <p>Valor R$: {{ produto.preco }} </p><br>
+            <p>Quantidade: {{ produto.quantidade }}</p>
+            <hr>
+            <br><br>
+            {% endfor %}
         </fieldset>
         <a href="{% url 'index' %}"><input type="button" value="Voltar para o Menu"></a>
     </form>
+
 </body>
 
 </html>
-
