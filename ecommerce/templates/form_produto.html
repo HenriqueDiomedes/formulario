@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -13,14 +11,16 @@
     <link rel="shortcut icon" href="/static/imagem/perfil/favicon.ico" type="image/x-icon">
 </head>
 <style>
-    body{
+    body {
         background-image: url('/static/img/FundoFormulariosIndex.jpg');
-        background-size: 100% 100%; /* cobre toda a tela */
-        background-position: center; /* centraliza a imagem */
-        background-repeat: no-repeat; /* não repete a imagem */
-        background-attachment: fixed; /* fixa a imagem na tela */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
         padding-top: 50px;
+        font-family: Arial, sans-serif;
     }
+
     form {
         background-color: rgba(128, 128, 128, 0.253);
         width: 50%;
@@ -39,21 +39,22 @@
         text-align: left;
         margin-bottom: 20px;
         color: white;
-        padding-left:10px;
+        padding-left: 10px;
         padding-right: 15px;
     }
-    .titulo{
+
+    .titulo {
         text-align: center;
         font-size: 28px;
         font-weight: bold;
         width: 100%;
     }
-    a{
+
+    a {
         background-color: blue;
         margin: 0;
         padding: 0;
     }
-
 </style>
 
 <body>
@@ -69,18 +70,19 @@
             <label class="titulo" for="nome">Informações do Produto:</label>
             <hr>
             <label for="nome">Produto:</label><br>
-            <input class="form-control" type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required><br><br>
-            
-            
+            <input class="form-control" type="text" id="nome" name="nome" placeholder="Digite o nome do produto"
+                required><br><br>
+
+
             <label for="descricao">Descrição:</label><br>
-            <input class="form-control" type="text" id="descricao" name="descricao"  required><br><br>
-            
+            <input class="form-control" type="text" id="descricao" name="descricao" required><br><br>
+
             <label for="preco">Preco:</label><br>
-            <input class="form-control" type="number" id="preco" name="preco"  required><br><br>
-            
+            <input class="form-control" type="number" id="preco" name="preco" required><br><br>
+
             <label for="quantidade">Quantidade:</label><br>
             <input class="form-control" type="number" id="quantidade" name="quantidade" required><br><br>
-        
+
             <label class="titulo" for="imagem">Carregue as Imagem:</label>
             <hr>
             <label for="imagem">Inserir Imagem 1:</label><br>
@@ -91,14 +93,12 @@
             <input type="file" id="imagem" name="imagem3" required><br><br>
         </fieldset>
         <input class="btn btn-primary" type="submit" value="Cadastrar Produto">
-        <a  href="{% url 'index' %}"><input class="btn btn-primary" type="button" value="Voltar para o Menu"></a>
+        <a href="{% url 'index' %}"><input class="btn btn-primary" type="button" value="Voltar para o Menu"></a>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
-
-

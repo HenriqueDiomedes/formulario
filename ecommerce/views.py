@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from .models import Produto
 from .models import Cliente
 
@@ -65,10 +66,20 @@ def lista_Produtos(request):
     return render(request, 'lista_produtos.html', {'produtos': produtos})
 
 # detalhes do produto
-def detalheProduto(request, id):
+def detalhesProduto(request, id):
     print(id)
-    produto = get_object_or_404(Produto,pk = id)
-    return render (request, "detalhe_produto.html", {"produto":produto})
+    produto = get_object_or_404(Produto, pk=id)
+
+    imagens = []
+    if produto.imagem1:
+        imagens.append(produto.imagem1.url)
+    if produto.imagem2:
+        imagens.append(produto.imagem2.url)
+    if produto.imagem3:
+        imagens.append(produto.imagem3.url)
+
+    return render(request, "detalhes_produto.html", {"produto": produto, "imagens": imagens})
+
 
  # sobre clientes
 def formCliente(request):

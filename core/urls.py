@@ -25,7 +25,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('produto/', views.formProduto, name='form_produto'),
     path('produtos/', views.lista_Produtos, name='lista_produtos'),
-    path('produto/<int:id>', views.detalheProduto, name = 'detalhe_produto'),
+    path('produto/<int:id>', views.detalhesProduto, name = 'detalhes_produto'),
    
    #cliente
     path('cliente/', views.formCliente, name='form_cliente'),

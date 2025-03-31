@@ -11,13 +11,40 @@
     
     <style>
         body {
-            background-image: (url('/static/img/FundoFormulariosIndex.jpg'));
+            background-image: url('/static/img/FundoFormulariosIndex.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #333333ad;
+            color: #fff;
+            padding: 5px 20px;
             display: flex;
-            justify-content: center;
+            margin-top: 0px;
+            margin-bottom: 40px;
+            box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.4);
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: system-ui, sans-serif;
+        }
+
+        .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu a:hover {
+            color: #ddd;
         }
 
         .container-detalhes {
@@ -33,13 +60,14 @@
         }
 
         h2, h3, p {
-            color: #071E41;
+            color: white;
         }
 
         .btn-primary {
             background-color: #071E41;
             border: none;
             padding: 12px 24px;
+            margin-bottom: 20px;
             font-weight: 600;
             border-radius: 8px;
             transition: transform 0.2s ease;
@@ -52,12 +80,22 @@
 </head>
 
 <body>
+    <header>
+        <div class="menu">
+            <a href="{% url 'index' %}">Início 🏛</a>
+            <a href="{% url 'lista_produtos' %}">Produtos 👜</a>
+            <a href="#">Carrinho 🛒</a>
+            <a href="#">Mais ⚙</a>
+        </div>
+        <h1>Loja dos 20</h1>
+    </header>
+
     <div class="container container-detalhes">
         <div class="row">
             <div class="col-md-6">
                 <div id="carouselProduto" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        {% for imagem in produto.imagens %}
+                        {% for imagem in imagens %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
                             <img src="{{ imagem }}" class="d-block w-100" alt="Imagem do produto">
                         </div>
