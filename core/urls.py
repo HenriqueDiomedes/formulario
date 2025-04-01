@@ -22,10 +22,11 @@ from ecommerce  import views
 
 urlpatterns = [
     # produto
-    path('', views.index, name='index'),
-    path('produto/', views.formProduto, name='form_produto'),
-    path('produtos/', views.lista_Produtos, name='lista_produtos'),
+    path('', views.lista_Produtos, name='lista_produtos'),
+    path('formulario', views.formulario, name='formulario'),
+    path('produto/cadastro', views.formProduto, name='form_produto'),
     path('produto/<int:id>', views.detalhesProduto, name = 'detalhes_produto'),
+    path('produto/atualizar/<int:id>', views.atualizarProduto, name = 'atualizar_produto'),
    
    #cliente
     path('cliente/', views.formCliente, name='form_cliente'),

@@ -3,7 +3,8 @@ from django.shortcuts import get_object_or_404
 from .models import Produto
 from .models import Cliente
 
- # sobre prooduto
+
+ # sobre prooduto (tela de cadastro de produtos)
 def formProduto(request):
     if request.method == 'POST':
         print("Dados recebidos com sucesso")
@@ -30,8 +31,7 @@ def formProduto(request):
 
     return render(request, 'form_produto.html')
 
-# mostrar a lista de produtos
-
+# mostrar a lista de produtos(tela inicial)
 def lista_Produtos(request):
     nome_produto = request.GET.get('nome_produto')
     valor_min = request.GET.get('valor_min')
@@ -65,7 +65,7 @@ def lista_Produtos(request):
 
     return render(request, 'lista_produtos.html', {'produtos': produtos})
 
-# detalhes do produto
+# detalhes do produto (tela de detalhes do produto)
 def detalhesProduto(request, id):
     print(id)
     produto = get_object_or_404(Produto, pk=id)
@@ -80,8 +80,42 @@ def detalhesProduto(request, id):
 
     return render(request, "detalhes_produto.html", {"produto": produto, "imagens": imagens})
 
+# atualizar produto (tela de atualização dos dados do produto)
+def atualizarProduto(request, id):
+    produto = get_object_or_404(Produto, pk=id)
 
- # sobre clientes
+    if request.method == 'POST':
+        print("DAdos recebidos com sucesso!")
+
+        produto.nome = request.POST.get('nome', produto.nome)
+        produto.descricao = request.POST.get('descricao', produto.descricao)
+
+        preco_novo = request.POST.get('preco', None)
+        if preco_novo:
+            try:
+                produto.preco = float(preco_novo)
+            except ValueError:
+                pass
+        
+        quantidade_nova = request.POST.get('quantidade', None)
+        if quantidade_nova:
+            try:
+                produto.quantidade = int(quantidade_nova)
+            except ValueError:
+                pass
+        
+        for i in range(1,5):
+            campo_imagem = f'imagem{i}'
+            if campo_imagem in request.FILES:
+                setattr(produto, campo_imagem, request.FILES[campo_imagem])
+
+        produto.save()
+    return render(request, 'atualizar_produto.html', {'produto':produto})
+
+
+
+
+ # sobre clientes (tela de cadastro de clientes)
 def formCliente(request):
     if request.method == 'POST':
         print("Dados recebidos com sucesso")
@@ -101,15 +135,15 @@ def formCliente(request):
 
     return render(request, 'form_cliente.html')
 
-# mostrar a lista de clientes
+# mostrar a lista de clientes 
 def lista_Clientes(request):
     clientes = Cliente.objects.all()
     return render(request, 'lista_clientes.html', {'clientes': clientes})
 
 
 
-# acessar a página inicial
-def index(request):
+# acessar a página inicial ( tela Mais 'formularios')
+def formulario(request):
     if request.method == 'POST':
         escolha = request.POST.get('escolha')
 
@@ -118,8 +152,11 @@ def index(request):
 
         elif escolha == 'cliente':
             return redirect('form_cliente')
+        
+        elif escolha == 'atualizar':
+            return redirect('atualizar_produto')
 
-    return render(request, 'index.html')
+    return render(request, 'formulario.html')
 
 
 
