@@ -161,12 +161,12 @@
         {% for produto in produtos %}
         <div class="produto-card">
             <div class="imagem-produto">
-                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                <img src="{{ produto.imagem1.url }}" alt="{{ produto.nome }}">
                
             </div>
             <h3>{{ produto.nome }}</h3>
             <p>{{ produto.descricao }}</p>
-            <p><strong>/8 R$ {{ produto.preco }}</strong></p>
+            <p><strong> R$ {{ produto.preco }}</strong></p>
             <p>Estoque: {{ produto.quantidade }}</p>
             <a href="{% url 'detalhes_produto' produto.id %}" class="btn-detalhes">Detalhes</a>
         </div>

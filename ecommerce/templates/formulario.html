@@ -88,8 +88,8 @@
         <fieldset>
             <legend>Formularios</legend>
             <button type="submit" name="escolha" value="produto">Cadastrar Produto</button>
-            <button type="submit" name="escolha" value="cliente">Cadastrar Cliente</button>
-            <button type="submit" name="escolha" value="atualizar">Atualizar Produto</button>
+            <button type="submit" name="escolha" value="cliente">Cadastrar Cliente</button>            
+            <button><a href="{% url 'atualizar_produto' %}">Atualizar Produtos</a></button>
             <button><a href="{% url 'lista_produtos' %}">Lista de Produtos</a></button>
             <button><a href="{% url 'lista_clientes' %}">Lista de Clientes</a></button>
         </fieldset>

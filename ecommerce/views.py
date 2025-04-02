@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from .models import Produto
 from .models import Cliente
 
@@ -8,15 +8,16 @@ from .models import Cliente
 def formProduto(request):
     if request.method == 'POST':
         print("Dados recebidos com sucesso")
-
+       
         nome = request.POST.get('nome')
         descricao = request.POST.get('descricao')
         preco = request.POST.get('preco')
         quantidade = request.POST.get('quantidade')
+
         imagem1 = request.FILES.get('imagem1')
         imagem2 = request.FILES.get('imagem2')
         imagem3 = request.FILES.get('imagem3')
-
+        
         produto = Produto()
         produto.nome = nome
         produto.descricao = descricao
@@ -25,11 +26,11 @@ def formProduto(request):
         produto.imagem1 = imagem1
         produto.imagem2 = imagem2
         produto.imagem3 = imagem3
-        
-        produto.save()
-        return redirect('lista_produtos')  # Redireciona para a lista de produtos após o salvamento
 
+        produto.save()
+    
     return render(request, 'form_produto.html')
+
 
 # mostrar a lista de produtos(tela inicial)
 def lista_Produtos(request):
@@ -81,39 +82,55 @@ def detalhesProduto(request, id):
     return render(request, "detalhes_produto.html", {"produto": produto, "imagens": imagens})
 
 # atualizar produto (tela de atualização dos dados do produto)
-def atualizarProduto(request, id):
-    produto = get_object_or_404(Produto, pk=id)
 
-    if request.method == 'POST':
-        print("DAdos recebidos com sucesso!")
+def atualizarProduto(request):
+    produto = None  # Inicializa a variável para evitar erro caso o ID não seja encontrado
+    
+    if request.method == "GET":
+        produto_id = request.GET.get("id_produto")
+        if produto_id:
+            produto = Produto.objects.filter(id=produto_id).first()
 
-        produto.nome = request.POST.get('nome', produto.nome)
-        produto.descricao = request.POST.get('descricao', produto.descricao)
+    if request.method == "POST":
+        produto_id = request.POST.get("id_produto")
 
-        preco_novo = request.POST.get('preco', None)
-        if preco_novo:
+        if not produto_id:  
+            return HttpResponse("Erro: ID do produto não encontrado.", status=400)
+
+        try:
+            produto = Produto.objects.get(id=produto_id)
+        except Produto.DoesNotExist:
+            return HttpResponse("Erro: Produto não encontrado.", status=404)
+
+        produto.nome = request.POST.get("nome") or produto.nome
+        produto.descricao = request.POST.get("descricao") or produto.descricao
+
+        preco = request.POST.get("preco")
+        if preco:
             try:
-                produto.preco = float(preco_novo)
+                produto.preco = float(preco)
             except ValueError:
-                pass
-        
-        quantidade_nova = request.POST.get('quantidade', None)
-        if quantidade_nova:
+                return HttpResponse("Erro: O preço deve ser um número válido.", status=400)
+
+        quantidade = request.POST.get("quantidade")
+        if quantidade:
             try:
-                produto.quantidade = int(quantidade_nova)
+                produto.quantidade = int(quantidade)
             except ValueError:
-                pass
-        
-        for i in range(1,5):
-            campo_imagem = f'imagem{i}'
-            if campo_imagem in request.FILES:
-                setattr(produto, campo_imagem, request.FILES[campo_imagem])
+                return HttpResponse("Erro: A quantidade deve ser um número inteiro.", status=400)
+
+        if 'imagem1' in request.FILES:
+            produto.imagem1 = request.FILES['imagem1']
+        if 'imagem2' in request.FILES:
+            produto.imagem2 = request.FILES['imagem2']
+        if 'imagem3' in request.FILES:
+            produto.imagem3 = request.FILES['imagem3']
 
         produto.save()
-    return render(request, 'atualizar_produto.html', {'produto':produto})
 
+        return redirect('lista_produtos')
 
-
+    return render(request, "atualizar_produto.html", {"produto": produto})
 
  # sobre clientes (tela de cadastro de clientes)
 def formCliente(request):
@@ -146,16 +163,12 @@ def lista_Clientes(request):
 def formulario(request):
     if request.method == 'POST':
         escolha = request.POST.get('escolha')
-
         if escolha == 'produto':
             return redirect('form_produto')
-
         elif escolha == 'cliente':
             return redirect('form_cliente')
-        
         elif escolha == 'atualizar':
             return redirect('atualizar_produto')
-
     return render(request, 'formulario.html')
 
 
