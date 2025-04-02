@@ -6,6 +6,7 @@ class Produto(models.Model):
     descricao = models.CharField(max_length=255, blank=True)
     preco = models.DecimalField(max_digits=10, decimal_places=2)   #blank=True, null=True
     quantidade = models.IntegerField()
+    
     imagem1 = models.ImageField(upload_to='static/img/produto/', null=True, blank=True)
     imagem2 = models.ImageField(upload_to='static/img/produto/', null=True, blank=True)
     imagem3 = models.ImageField(upload_to='static/img/produto/', null=True, blank=True)

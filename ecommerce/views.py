@@ -23,6 +23,7 @@ def formProduto(request):
         produto.descricao = descricao
         produto.preco = preco
         produto.quantidade = quantidade
+        
         produto.imagem1 = imagem1
         produto.imagem2 = imagem2
         produto.imagem3 = imagem3
