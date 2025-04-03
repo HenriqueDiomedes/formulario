@@ -20,4 +20,5 @@ class Cliente(models.Model):
     cidade = models.CharField(max_length=100)
 
 
+
     

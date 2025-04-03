@@ -24,11 +24,12 @@ urlpatterns = [
     # produto
     path('', views.lista_Produtos, name='lista_produtos'),
     path('formulario', views.formulario, name='formulario'),
-    path('produto/cadastro', views.formProduto, name='form_produto'),
+    path('produto/cadastro', views.cadastroProduto, name='cadastro_produto'),
     path('produto/<int:id>', views.detalhesProduto, name='detalhes_produto'),
     path('produto/atualizar/', views.atualizarProduto, name='atualizar_produto'),
 
     # cliente
+    path('cliente/cadastro', views.cadastroCliente, name='cadastro_cliente'),
     path('cliente/', views.formCliente, name='form_cliente'),
     path('clientes/', views.lista_Clientes, name='lista_clientes'),
     path('admin/', admin.site.urls),

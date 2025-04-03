@@ -5,7 +5,7 @@ from .models import Cliente
 
 
  # sobre prooduto (tela de cadastro de produtos)
-def formProduto(request):
+def cadastroProduto(request):
     if request.method == 'POST':
         print("Dados recebidos com sucesso")
        
@@ -30,7 +30,7 @@ def formProduto(request):
 
         produto.save()
     
-    return render(request, 'form_produto.html')
+    return render(request, 'cadastro_produto.html')
 
 
 # mostrar a lista de produtos(tela inicial)
@@ -153,6 +153,36 @@ def formCliente(request):
 
     return render(request, 'form_cliente.html')
 
+ # sobre cadastrar os clientes (tela de cadastro de clientes)
+def cadastroCliente(request):
+    if request.method == 'POST':
+        print("Dados recebidos com sucesso")
+
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        telefone = request.POST.get('telefone')
+        cpf = request.POST.get('cpf')
+        numero_casa = request.POST.get('numero_casa')
+        cep = request.POST.get('cep')
+        rua = request.POST.get('rua')
+        cidade = request.POST.get('cidade')
+        estado = request.POST.get('estado')
+
+        cliente = Cliente()
+        cliente.nome = nome
+        cliente.email = email
+        cliente.telefone = telefone
+        cliente.cpf = cpf
+        cliente.numero_casa = numero_casa
+        cliente.cep = cep
+        cliente.rua = rua
+        cliente.cidade = cidade
+        cliente.estado = estado
+
+        cliente.save()
+
+    return render(request, 'cadastro_cliente.html')
+
 # mostrar a lista de clientes 
 def lista_Clientes(request):
     clientes = Cliente.objects.all()
@@ -165,9 +195,9 @@ def formulario(request):
     if request.method == 'POST':
         escolha = request.POST.get('escolha')
         if escolha == 'produto':
-            return redirect('form_produto')
+            return redirect('cadastro_produto')
         elif escolha == 'cliente':
-            return redirect('form_cliente')
+            return redirect('cadastro_cliente')
         elif escolha == 'atualizar':
             return redirect('atualizar_produto')
     return render(request, 'formulario.html')
