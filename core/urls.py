@@ -28,11 +28,15 @@ urlpatterns = [
     path('produto/<int:id>', views.detalhesProduto, name='detalhes_produto'),
     path('produto/atualizar/', views.atualizarProduto, name='atualizar_produto'),
 
+    #pagamento
+    path('pagamento', views.formularioPagamento, name='formulario_pagamento'),
+
     # cliente
     path('cliente/cadastro', views.cadastroCliente, name='cadastro_cliente'),
     path('cliente/', views.formCliente, name='form_cliente'),
     path('clientes/', views.lista_Clientes, name='lista_clientes'),
     path('admin/', admin.site.urls),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

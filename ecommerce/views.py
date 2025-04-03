@@ -202,6 +202,14 @@ def formulario(request):
             return redirect('atualizar_produto')
     return render(request, 'formulario.html')
 
+# formulario de pagamento
+def formularioPagamento(request):
+    
+    
+    return render(request, 'formulario_pagamento.html')
+
+
+
 
 
 
