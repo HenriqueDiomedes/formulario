@@ -83,10 +83,11 @@ def detalhesProduto(request, id):
     return render(request, "detalhes_produto.html", {"produto": produto, "imagens": imagens})
 
 # atualizar produto (tela de atualização dos dados do produto)
+from decimal import Decimal, InvalidOperation
 
 def atualizarProduto(request):
     produto = None  # Inicializa a variável para evitar erro caso o ID não seja encontrado
-    
+
     if request.method == "GET":
         produto_id = request.GET.get("id_produto")
         if produto_id:
@@ -95,7 +96,7 @@ def atualizarProduto(request):
     if request.method == "POST":
         produto_id = request.POST.get("id_produto")
 
-        if not produto_id:  
+        if not produto_id:
             return HttpResponse("Erro: ID do produto não encontrado.", status=400)
 
         try:
@@ -103,16 +104,20 @@ def atualizarProduto(request):
         except Produto.DoesNotExist:
             return HttpResponse("Erro: Produto não encontrado.", status=404)
 
+        # Atualiza os campos básicos
         produto.nome = request.POST.get("nome") or produto.nome
         produto.descricao = request.POST.get("descricao") or produto.descricao
 
+        # Atualiza o preço, tratando vírgula como separador decimal
         preco = request.POST.get("preco")
         if preco:
             try:
-                produto.preco = float(preco)
-            except ValueError:
+                preco = preco.replace(',', '.')
+                produto.preco = Decimal(preco)
+            except InvalidOperation:
                 return HttpResponse("Erro: O preço deve ser um número válido.", status=400)
 
+        # Atualiza a quantidade
         quantidade = request.POST.get("quantidade")
         if quantidade:
             try:
@@ -120,6 +125,7 @@ def atualizarProduto(request):
             except ValueError:
                 return HttpResponse("Erro: A quantidade deve ser um número inteiro.", status=400)
 
+        # Atualiza as imagens se forem enviadas
         if 'imagem1' in request.FILES:
             produto.imagem1 = request.FILES['imagem1']
         if 'imagem2' in request.FILES:
@@ -128,7 +134,6 @@ def atualizarProduto(request):
             produto.imagem3 = request.FILES['imagem3']
 
         produto.save()
-
         return redirect('lista_produtos')
 
     return render(request, "atualizar_produto.html", {"produto": produto})

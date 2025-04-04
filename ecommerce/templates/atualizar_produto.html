@@ -65,19 +65,29 @@
 
     .img {
         background-color: white;
-        width: 250px;
-        height: 250px;
+        width: 100%;
+        /* Faz com que o container tenha o mesmo tamanho da imagem */
+        max-width: 250px;
+        /* Limita o tamanho máximo */
+        height: auto;
+        /* Ajusta a altura automaticamente */
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
+        padding: 10px;
+        /* Espaçamento interno para não colar na borda */
+        border-radius: 8px;
+        /* Deixa com cantos arredondados */
     }
 
     .img img {
-        width: auto;
+        width: 100%;
         height: auto;
-        max-width: 100%;
-        max-height: 100%;
+        object-fit: contain;
+        object-position: center;
     }
+
 
     #qtd {
         width: 100px;
@@ -113,17 +123,20 @@
             <div class="container-editavel">
                 <div class="editar">
                     <label for="nome">Produto:</label>
-                    <input id="put" value="{{ produto.nome|default:'' }}" class="form-control" type="text" id="nome"
+                    <input id="nome" value="{{ produto.nome|default:'' }}" class="form-control" type="text"
                         name="nome"><br>
+
                     <label for="descricao">Descrição:</label>
-                    <input id="put" value="{{ produto.descricao|default:'' }}" class="form-control" type="text"
+                    <input id="descricao" value="{{ produto.descricao|default:'' }}" class="form-control" type="text"
                         id="descricao" name="descricao"><br>
+
                     <label for="preco">Preço:</label>
-                    <input id="put" value="{{ produto.preco|default:'' }}" class="form-control" type="number" id="preco"
+                    <input id="preco" value="{{ produto.preco|default:'' }}" class="form-control" type="text"
                         name="preco"><br>
+
                     <label for="quantidade">Quantidade:</label>
-                    <input id="qtd" value="{{ produto.quantidade|default:'' }}" class="form-control" type="number"
-                        id="qtd" name="quantidade"><br>
+                    <input id="quantidade" value="{{ produto.quantidade|default:'' }}" class="form-control"
+                        type="number" name="quantidade"><br>
 
                     <label class="titulo" for="imagem">Alterar as Imagens:</label>
                     <hr>
