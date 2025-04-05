@@ -49,36 +49,33 @@
     .mb3 {
         display: flex;
         flex-direction: column;
-        /* Alinha o título acima do formulário */
     }
 
     .container-editavel {
         display: flex;
         flex-direction: row;
-        /* Alinha o campo "Produto" ao lado da imagem */
     }
 
     .img-container {
-        margin-left: 50px;
+        width: 400px;
+        margin-left: 10px;
     }
 
+    .editar{
+        width: 410px;
+    }
 
     .img {
         background-color: white;
         width: 100%;
-        /* Faz com que o container tenha o mesmo tamanho da imagem */
         max-width: 250px;
-        /* Limita o tamanho máximo */
         height: auto;
-        /* Ajusta a altura automaticamente */
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
         padding: 10px;
-        /* Espaçamento interno para não colar na borda */
         border-radius: 8px;
-        /* Deixa com cantos arredondados */
     }
 
     .img img {
@@ -88,14 +85,43 @@
         object-position: center;
     }
 
+    .editar-img{
+        display: flex;
+    }
 
-    #qtd {
+    .editar-img #imagem1, #imagem2, #imagem3{
+        width: 400px;
+        height: 40px;
+        margin: 20px;
+        display: flex;
+        margin-right: 100px;
+    }
+
+    .editar-img #img1, #img2{
+        display: flex;
+        width: 200px;
+        height: 100px;
+    }
+
+    hr{
+        width: 700px;
+    }
+    #nome {
+        width: 400px;
+    }
+    #descricao {
+        width: 400px;
+    }
+    #preco {
+        width: 400px;
+    }
+    #quantidade {
+        width: 400px;
+    }
+    #quantidade {
         width: 100px;
     }
 
-    #put {
-        width: 400px;
-    }
 </style>
 {% endblock %}
 
@@ -139,20 +165,46 @@
                         type="number" name="quantidade"><br>
 
                     <label class="titulo" for="imagem">Alterar as Imagens:</label>
+                    
                     <hr>
-                    <label for="imagem1">Inserir Imagem 1:</label>
-                    <input class="form-control" type="file" id="imagem1" name="imagem1"><br>
-                    <label for="imagem2">Inserir Imagem 2:</label>
-                    <input class="form-control" type="file" id="imagem2" name="imagem2"><br>
-                    <label for="imagem3">Inserir Imagem 3:</label>
-                    <input class="form-control" type="file" id="imagem3" name="imagem3"><br>
+                    <label for="imagem1">Alterar Imagem 1:</label>
+                    <article class="editar-img">
+                        <input class="form-control" type="file" id="imagem1" name="imagem1">
+                        {% if produto and produto.imagem1 %}
+                        <img container-editavel" src="{{ produto.imagem1.url }}" alt="Imagem do Produto" id="img1">
+                        {% else %}
+                        <p>Nenhuma imagem disponível</p>
+                        {% endif %}
+                    </article>
+                    <hr>
+
+                    <label for="imagem2">Alterar Imagem 2:</label>
+                    <article class="editar-img">
+                        <input class="form-control" type="file" id="imagem2" name="imagem2">
+                        {% if produto and produto.imagem1 %}
+                        <img container-editavel" src="{{ produto.imagem2.url }}" alt="Imagem do Produto" id="img2">
+                        {% else %}
+                        <p>Nenhuma imagem disponível</p>
+                        {% endif %}
+                    </article>
+                    <hr>
+                    <label for="imagem3">Aterar Imagem 3:</label>
+                    <article class="editar-img">
+                        <input class="form-control" type="file" id="imagem3" name="imagem3">
+                        {% if produto and produto.imagem1 %}
+                        <img container-editavel" src="{{ produto.imagem3.url }}" alt="Imagem do Produto" id="img2">
+                        {% else %}
+                        <p>Nenhuma imagem disponível</p>
+                        {% endif %}
+                    </article>
+
+
                 </div>
                 <div class="img-container">
                     <p>Produto carregado: ID_Produto({{ produto.id }})</p>
-                    <!-- Exibição da imagem principal -->
                     {% if produto and produto.imagem1 %}
                     <div class="img">
-                        <img src="{{ produto.imagem1.url }}" alt="Imagem do Produto">
+                        <img id="do-produto" src="{{ produto.imagem1.url }}" alt="Imagem do Produto">
                     </div>
                     {% else %}
                     <p>Nenhuma imagem disponível</p>

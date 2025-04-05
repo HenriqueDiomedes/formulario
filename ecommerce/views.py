@@ -85,6 +85,19 @@ def detalhesProduto(request, id):
 # atualizar produto (tela de atualização dos dados do produto)
 from decimal import Decimal, InvalidOperation
 
+# Adm produto
+def admEstoque(request):
+    produtos = Produto.objects.all()
+    return render(request, 'adm_estoque.html', {'produtos': produtos})
+
+
+def deletarProduto(request, id):
+    produto = get_object_or_404(Produto, pk=id)
+    produto.delete()
+
+    return redirect('adm_estoque')
+
+
 def atualizarProduto(request):
     produto = None  # Inicializa a variável para evitar erro caso o ID não seja encontrado
 
@@ -134,7 +147,6 @@ def atualizarProduto(request):
             produto.imagem3 = request.FILES['imagem3']
 
         produto.save()
-        return redirect('lista_produtos')
 
     return render(request, "atualizar_produto.html", {"produto": produto})
 
@@ -205,6 +217,9 @@ def formulario(request):
             return redirect('cadastro_cliente')
         elif escolha == 'atualizar':
             return redirect('atualizar_produto')
+        elif escolha == 'estoque':
+            return redirect('adm_estoque')
+        
     return render(request, 'formulario.html')
 
 # formulario de pagamento

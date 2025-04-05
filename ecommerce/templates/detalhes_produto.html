@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base.html" %}
+{% block title %}Detalhes do Produto{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes: {{ produto.nome }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
 
+{% block styles %}
     <style>
         body {
             background-image: url('/static/img/FundoFormulariosIndex.jpg');
@@ -19,59 +16,45 @@
             font-family: Arial, sans-serif;
         }
 
-        header {
-            background-color: #333333ad;
-            color: #fff;
-            padding: 5px 20px;
-            display: flex;
-            margin-top: 0px;
-            margin-bottom: 40px;
-            box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.4);
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .menu {
-            display: flex;
-            gap: 20px;
-        }
-
-        .menu a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .menu a:hover {
-            color: #ddd;
-        }
-
         .container-detalhes {
             background-color: rgba(0, 0, 0, 0.527);
             box-shadow: 1px 1px 10px rgba(255, 252, 252, 0.4);
             border-radius: 15px;
             padding: 40px;
             text-align: center;
-        }
-
-        .carousel-inner {
-            border-radius: 20px;
-            border-radius: 10px;
-        }
-
-        .col-md-6.d-flex.flex-column.justify-content-center {
+            display: flex;
+            gap: 40px; /* Aumentei o espaço entre os containers */
+            justify-content: center;
             align-items: center;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .container-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 1px 1px 10px rgba(255, 252, 252, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            width: 45%;
+            min-width: 300px;
+            min-height: 450px; /* Mantém os containers com altura fixa */
+        }
+
+        /* Ajuste para o carousel */
+        .carousel-inner {
+            width: 100%;
+            height: 500px; /* Define um tamanho fixo para o carousel */
         }
 
         .carousel-inner img {
             width: 100%;
-            height: 500px;
-            object-fit: cover;
+            height: 100%;
+            object-fit: contain; /* Mantém a proporção das imagens */
+            border-radius: 10px;
         }
 
-        h2,
-        h3,
-        p {
+        h2, h3, p {
             color: white;
         }
 
@@ -79,66 +62,64 @@
             background-color: #071E41;
             border: none;
             padding: 12px 24px;
-            justify-content: center;
-            margin-bottom: 20px;
             font-weight: 600;
-            width: 300px;
+            width: 100%;
             border-radius: 8px;
             transition: transform 0.2s ease;
+            margin-top: 10px;
         }
 
         .btn-primary:hover {
             transform: scale(1.05);
         }
+
+        @media (max-width: 768px) {
+            .container-detalhes {
+                flex-direction: column;
+            }
+
+            .container-box {
+                width: 100%;
+            }
+        }
     </style>
-</head>
+{% endblock %}
 
-<body>
-    <header>
-        <div class="menu">
-            <a href="{% url 'lista_produtos' %}">Início 🏛</a>
-            <a href="#">Formularios 👜</a>
-            <a href="#">Carrinho 🛒</a>
-            <a href="{% url 'formulario' %}">Mais ⚙</a>
-        </div>
-        <h1>Loja dos 20</h1>
-    </header>
-
+{% block content %}
+    <h1 class="text-center text-white"><hr></h1>
     <div class="container container-detalhes">
-        <div class="row">
-            <div class="col-md-6">
-                <div id="carouselProduto" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for imagem in imagens %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ imagem }}" class="d-block w-100" alt="Imagem do produto">
-                        </div>
-                        {% endfor %}
+        <!-- Container da imagem -->
+        <div class="container-box">
+            <div id="carouselProduto" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for imagem in imagens %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ imagem }}" class="d-block w-100" alt="Imagem do produto">
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselProduto"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Anterior</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselProduto"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Próximo</span>
-                    </button>
+                    {% endfor %}
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselProduto" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselProduto" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Próximo</span>
+                </button>
             </div>
-            <div class="col-md-6 d-flex flex-column justify-content-center">
-                <h2>{{ produto.nome }}</h2>
-                <h3>R$ {{ produto.preco }}</h3>
-                <p>{{ produto.descricao }}</p>
-                <a class="btn btn-primary" href="{% url 'formulario_pagamento' %}">Comprar agora</a>
-                <button class="btn btn-primary">🛒 Adicionar ao carrinho</button>
-            </div>
+        </div>
+
+        <!-- Container da descrição -->
+        <div class="container-box d-flex flex-column justify-content-center">
+            <h2>{{ produto.nome }}</h2>
+            <h3>R$ {{ produto.preco }}</h3>
+            <p>{{ produto.descricao }}</p>
+            <a class="btn btn-primary" href="{% url 'formulario_pagamento' %}">Comprar agora</a>
+            <button class="btn btn-primary">🛒 Adicionar ao carrinho</button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+        crossorigin="anonymous">
+    </script>
+{% endblock %}

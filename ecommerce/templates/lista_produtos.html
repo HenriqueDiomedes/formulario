@@ -1,177 +1,159 @@
-
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
+{% block title %}Atualizar Produto{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Produtos</title>
-    <style>
-        body {
-            background-image: url('/static/img/FundoFormulariosIndex.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            padding-top: 50px;
-            font-family: Arial, sans-serif;
-        }
+{% block styles %}
+<style>
+    body {
+        background-image: url('/static/img/FundoFormulariosIndex.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        padding-top: 50px;
+        font-family: Arial, sans-serif;
+    }
 
-        header {
-            background-color: #333333ad;
-            color: #fff;
-            padding: 5px 20px;
-            display: flex;
-            box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.4);
-            justify-content: space-between;
-            align-items: center;
-        }
+    .search-bar {
+        display: flex;
+        gap: 8px;
+        margin-top: 70px;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .menu {
-            display: flex;
-            gap: 20px;
-        }
+    .search-bar input,
+    .search-bar select,
+    .search-bar button {
+        padding: 6px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
 
-        .menu a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-        }
+    .search-bar button {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        border: none;
+    }
 
-        .menu a:hover {
-            color: #ddd;
-        }
+    .search-bar button:hover {
+        background-color: #0056b3;
+    }
 
-        .search-bar {
-            display: flex;
-            gap: 8px;
-            margin: 15px auto;
-            justify-content: center;
-            align-items: center;
-        }
+    .filter-dropdown {
+        position: relative;
+    }
 
-        .search-bar input, .search-bar select, .search-bar button {
-            padding: 6px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+    .filter-dropdown select {
+        cursor: pointer;
+    }
 
-        .search-bar button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            border: none;
-        }
+    .container-produto {
+        width: 80%;
+        margin: 20px auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 30px;
+    }
 
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
+    .produto-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        background-color: white;
+        width: 230px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        text-align: center;
+        margin: 5px;
+    }
 
-        .filter-dropdown {
-            position: relative;
-        }
+    .produto-card .imagem-produto {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 180px;
+        /* Aumenta um pouco para dar mais espaço */
+        background-color: #f8f8f8;
+        /* Cor neutra para fundo */
+        border-radius: 10px;
+    }
 
-        .filter-dropdown select {
-            cursor: pointer;
-        }
+    .produto-card img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        /* Agora a imagem aparece por completo */
+    }
 
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
 
-        .produto-card {
-            background-color: white;
-            width: 230px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            text-align: center;
-            margin: 5px;
-        }
 
-        .produto-card img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
+    .produto-card h3 {
+        margin: 8px 0;
+        font-size: 16px;
+    }
 
-        .produto-card h3 {
-            margin: 8px 0;
-            font-size: 16px;
-        }
+    .produto-card p {
+        font-size: 12px;
+        color: #555;
+    }
 
-        .produto-card p {
-            font-size: 12px;
-            color: #555;
-        }
+    .btn-detalhes {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 8px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 8px;
+        font-size: 12px;
+    }
 
-        .btn-detalhes {
-            display: inline-block;
-            background-color: #007bff;
-            color: white;
-            padding: 8px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 8px;
-            font-size: 12px;
-        }
+    .btn-detalhes:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
 
-        .btn-detalhes:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
+{% block content %}
 
-<body>
-    <header>
-        <div class="menu">
-            <a href="{% url 'lista_produtos' %}">Início 🏛</a>
-            <a href="#">Produtos 👜</a>
-            <a href="#">Carrinho 🛒</a>
-            <a href="{% url 'formulario' %}">Mais ⚙</a>
-        </div>
-        <h1>Loja dos 20</h1>
-    </header>
-
-    <div class="search-bar">
-        <input type="text" placeholder="Digite o nome do produto">
-        <div class="filter-dropdown">
-            <select>
-                <option>Filtrar</option>
-                <option value="1">Nome - Crescente 🔤↑</option>
-                <option value="2">Valor - Crescente $↑</option>
-                <option value="3">Nome - Decrescente 🔤↓</option>
-                <option value="4">Valor - Decrescente $↓</option>
-            </select>
-        </div>
-        <input type="number" placeholder="Valor mínimo">
-        <input type="number" placeholder="Valor máximo">
-        <button>Pesquisar</button>
+<div class="search-bar">
+    <input type="text" placeholder="Digite o nome do produto">
+    <div class="filter-dropdown">
+        <select>
+            <option>Filtrar</option>
+            <option value="1">Nome - Crescente 🔤↑</option>
+            <option value="2">Valor - Crescente $↑</option>
+            <option value="3">Nome - Decrescente 🔤↓</option>
+            <option value="4">Valor - Decrescente $↓</option>
+        </select>
     </div>
+    <input type="number" placeholder="Valor mínimo">
+    <input type="number" placeholder="Valor máximo">
+    <button>Pesquisar</button>
+</div>
 
-    <div class="container">
-        {% for produto in produtos %}
-        <div class="produto-card">
-            <div class="imagem-produto">
-                <img src="{{ produto.imagem1.url }}" alt="{{ produto.nome }}">
-               
-            </div>
-            <h3>{{ produto.nome }}</h3>
-            <p>{{ produto.descricao }}</p>
-            <p><strong> R$ {{ produto.preco }}</strong></p>
-            <p>Estoque: {{ produto.quantidade }}</p>
-            <a href="{% url 'detalhes_produto' produto.id %}" class="btn-detalhes">Detalhes</a>
+<div class="container-produto">
+    {% for produto in produtos %}
+    <div class="produto-card">
+        <div class="imagem-produto">
+            <img src="{{ produto.imagem1.url }}" alt="{{ produto.nome }}">
+
         </div>
-        {% endfor %}
+        <h3>{{ produto.nome }}</h3>
+        <p>{{ produto.descricao }}</p>
+        <p><strong> R$ {{ produto.preco }}</strong></p>
+        <p>Estoque: {{ produto.quantidade }}</p>
+        <a href="{% url 'detalhes_produto' produto.id %}" class="btn-detalhes">Detalhes</a>
     </div>
-</body>
+    {% endfor %}
+</div>
+{% endblock %}
+
 </html>
-
-

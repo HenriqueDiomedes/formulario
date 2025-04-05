@@ -27,6 +27,8 @@ urlpatterns = [
     path('produto/cadastro', views.cadastroProduto, name='cadastro_produto'),
     path('produto/<int:id>', views.detalhesProduto, name='detalhes_produto'),
     path('produto/atualizar/', views.atualizarProduto, name='atualizar_produto'),
+    path('produto/adm/', views.admEstoque, name='adm_estoque'),
+    path('produto/deletar/<int:id>/', views.deletarProduto, name='deletar_produto'),
 
     #pagamento
     path('pagamento', views.formularioPagamento, name='formulario_pagamento'),
