@@ -57,6 +57,25 @@
             margin-right: 30px;
         }
 
+        .container-login {
+            display: flex;
+        }
+
+        .container-login {
+            justify-content: center;
+            flex-direction: column;
+
+
+        }
+
+        .container-login a,
+        .container-login a:visited,
+        .container-login a:target {
+            color: #F2F2F2;
+            text-decoration: none;
+        }
+
+
         footer {
             background-color: #333333ad;
             box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.4);
@@ -83,12 +102,23 @@
     <header>
         <section class="barra-menu">
             <article class="menu">
-                <img id="img" src="/static/img/logo-removebg-preview.png" class="logo-img" alt="logo">
+                <img id="img" src="/static/img/linux-removebg-preview.png" class="logo-img" alt="logo">
                 <a href="{% url 'lista_produtos' %}">Início 🏛</a>
                 <a href="#">Produtos 👜</a>
                 <a href="#">Carrinho 🛒</a>
                 <a href="{% url 'formulario' %}">Mais ⚙</a>
             </article>
+        </section>
+        <section class="container-login ms-auto me-4 text-end">
+            <a href="{% url 'login' %}">
+                <i class="bi bi-person"></i>
+                Login
+            </a>
+
+            <a href="{% url 'cadastro_cliente' %}">
+                <i class="bi bi-file-text"></i>
+                Cadastre-se
+            </a>
         </section>
     </header>
 

@@ -229,7 +229,12 @@ def formularioPagamento(request):
     return render(request, 'formulario_pagamento.html')
 
 
+def login(request):   
+    if request.method == "POST":
+        email = request.POST.get("email")
+        senha = request.POST.get("senha")
 
+    return render(request, 'registration/login.html')
 
 
 

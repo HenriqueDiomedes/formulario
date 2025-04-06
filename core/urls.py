@@ -37,6 +37,10 @@ urlpatterns = [
     path('cliente/cadastro', views.cadastroCliente, name='cadastro_cliente'),
     path('cliente/', views.formCliente, name='form_cliente'),
     path('clientes/', views.lista_Clientes, name='lista_clientes'),
+
+    path('login/',views.login, name='login'),
+
+
     path('admin/', admin.site.urls),
 
 ]
