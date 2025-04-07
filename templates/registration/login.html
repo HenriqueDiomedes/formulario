@@ -7,10 +7,10 @@
 <link rel="shortcut icon" href="/static/imagem/perfil/favicon.ico" type="image/x-icon">
 
 <style>
-@font-face {
-    font-family: 'font-1';
-    src: url(/static/font/Sabang\ Island.otf);
-}
+    @font-face {
+        font-family: 'font-1';
+        src: url(/static/font/Sabang\ Island.otf);
+    }
 
     body {
         background-image: url('/static/img/FundoFormulariosIndex.jpg');
@@ -21,11 +21,12 @@
         padding-top: 50px;
         color: black;
     }
-    h2{
+
+    h2 {
         font-family: font-1;
 
     }
-    
+
     .geral {
         font-family: Arial, sans-serif;
         background-color: rgba(255, 255, 255, 0.486);
@@ -63,7 +64,7 @@
         margin: 10px auto;
     }
 
-    #olho{
+    #olho {
         margin-top: 7px;
     }
 
@@ -82,9 +83,9 @@
             {% csrf_token %}
             <fieldset>
                 <section class="input-usuario">
-                    <label for="usuario">E-mail:</label>
+                    <label for="usuario">Usuario:</label>
                     <input class="form-control" type="text" id="email" name="username" autocomplete="username"
-                        placeholder="Digite seu email" required>
+                        placeholder="Digite nome do usuario" required>
                 </section>
                 <br>
                 <section>
@@ -92,15 +93,15 @@
                     <input class="form-control" type="password" id="senha" name="password"
                         placeholder="Digite sua senha" autocomplete="current-password">
                     <button class="bi bi-eyeglasses" button" id="olho" onclick="verSenha()"></button>
-                    {% if form.erros %}
-                    <p>Login ou Senha invaldos, Tente novamente.</p>
-                    {% endif %} {% if next %} {% if user.is_authenticated %}
+                    {% if form.errors %}
+                    <p style="color: red;">Usuário ou senha inválidos. Tente novamente.</p>
+                    {% endif %}{% if next %} {% if user.is_authenticated %}
                     <p>
                         Sua conta não tem acesso e essa página, Para prosseguir, faça login com uma conta que tenha
                         acesso.
                     </p>
                     {% else %}
-                    <p>Por favor, faça logiin para ver esta página.</p>
+                    <p>Por favor, faça login para ver esta página.</p>
                     {% endif %} {% endif %}
                 </section>
 

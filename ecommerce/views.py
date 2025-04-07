@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import logout
 from django.http import HttpResponse
 from .models import Produto
 from .models import Cliente
@@ -90,14 +91,14 @@ def admEstoque(request):
     produtos = Produto.objects.all()
     return render(request, 'adm_estoque.html', {'produtos': produtos})
 
-
+#Deletar algum produto
 def deletarProduto(request, id):
     produto = get_object_or_404(Produto, pk=id)
     produto.delete()
 
     return redirect('adm_estoque')
 
-
+# Atualizar os produtos
 def atualizarProduto(request):
     produto = None  # Inicializa a variável para evitar erro caso o ID não seja encontrado
 
@@ -238,6 +239,7 @@ def login(request):
         senha = request.POST.get("senha")
 
     return render(request, 'registration/login.html')
+ 
 
 
 

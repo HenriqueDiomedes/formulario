@@ -14,10 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
+from django.urls import path, include
+from django.contrib.auth.views import LogoutView
 from django.contrib import admin
-from django.urls import path
 from ecommerce import views
 
 urlpatterns = [
@@ -38,8 +39,17 @@ urlpatterns = [
     path('cliente/', views.formCliente, name='form_cliente'),
     path('clientes/', views.lista_Clientes, name='lista_clientes'),
 
-    path('login/',views.login, name='login'),
+    #login e autenticação
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(next_page='lista_produtos'), name='logout'),
     path('formulario', views.formulario, name='formulario'),
+
+    #reset de seha e login
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html'), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
+
 
 
     path('admin/', admin.site.urls),
