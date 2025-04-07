@@ -225,10 +225,13 @@ def formulario(request):
 # formulario de pagamento
 def formularioPagamento(request):
     
-    
     return render(request, 'formulario_pagamento.html')
 
+def Carrinho(request):
+    
+    return render(request,'carrinho.html')
 
+# Tela de login
 def login(request):   
     if request.method == "POST":
         email = request.POST.get("email")

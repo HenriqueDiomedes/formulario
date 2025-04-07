@@ -23,7 +23,7 @@
 
         header {
             box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.4);
-            background-color: #333333ad;
+            background-color: #333333e0;
             color: #fff;
             display: flex;
             position: absolute;
@@ -50,7 +50,6 @@
             color: #ddd;
         }
 
-
         #img {
             height: 120px;
             width: 110px;
@@ -59,13 +58,8 @@
 
         .container-login {
             display: flex;
-        }
-
-        .container-login {
             justify-content: center;
             flex-direction: column;
-
-
         }
 
         .container-login a,
@@ -75,6 +69,13 @@
             text-decoration: none;
         }
 
+        .conteudo-principal {
+            flex: 1;
+            /* OCUPA O ESPAÇO DISPONÍVEL */
+            margin-top: 30px;
+            /* PARA NÃO FICAR ESCONDIDO PELO HEADER */
+            padding: 20px;
+        }
 
         footer {
             background-color: #333333ad;
@@ -96,6 +97,8 @@
             text-align: center;
         }
     </style>
+
+    </style>
 </head>
 
 <body>
@@ -105,7 +108,7 @@
                 <img id="img" src="/static/img/linux-removebg-preview.png" class="logo-img" alt="logo">
                 <a href="{% url 'lista_produtos' %}">Início 🏛</a>
                 <a href="#">Produtos 👜</a>
-                <a href="#">Carrinho 🛒</a>
+                <a href="{% url 'carrinho' %}">Carrinho 🛒</a>
                 <a href="{% url 'formulario' %}">Mais ⚙</a>
             </article>
         </section>
@@ -122,21 +125,21 @@
         </section>
     </header>
 
-    {% block content %}
-    {% endblock %}
-
+    <!-- CONTEÚDO PRINCIPAL COM FLEX-GROW -->
+    <main class="conteudo-principal">
+        {% block content %}
+        {% endblock %}
+    </main>
 
     <footer>
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav" _msttexthash="42250" _msthash="14">Sobre Nós</a></li>
-            <li class="nav-item"><a href="#" class="nav" _msttexthash="313612" _msthash="15"></a></li>
-            <li class="nav-item"><a href="#" class="nav" _msttexthash="253617" _msthash="16">Precificação</a></li>
-            <li class="nav-item"><a href="#" class="nav" _msttexthash="429065" _msthash="17">Perguntas
-                    frequentes</a></li>
+            <li class="nav-item"><a href="#" class="nav">Sobre Nós</a></li>
+            <li class="nav-item"><a href="#" class="nav"></a></li>
+            <li class="nav-item"><a href="#" class="nav">Precificação</a></li>
+            <li class="nav-item"><a href="#" class="nav">Perguntas frequentes</a></li>
         </ul>
-        <p class="texto" _msttexthash="269243" _msthash="19">© 2025 Diomedes, Inc</p>
+        <p class="texto">© 2025 Diomedes, Inc</p>
     </footer>
-
 </body>
 
 </html>

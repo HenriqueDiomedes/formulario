@@ -21,6 +21,60 @@
         font-family: Arial, sans-serif;
     }
 
+    header {
+        box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.4);
+        background-color: #333333ad;
+        color: #fff;
+        display: flex;
+        position: absolute;
+        align-items: center;
+        width: 100%;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+    }
+
+    .barra-menu {
+        display: flex;
+        padding: 10px 20px;
+    }
+
+    .menu > a {
+        margin-left: 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .menu > a:hover {
+        color: #ddd;
+    }
+
+
+    #img {
+        height: 120px;
+        width: 110px;
+        margin-right: 30px;
+    }
+    .container-login {
+            display: flex;
+        }
+
+        .container-login {
+            justify-content: center;
+            flex-direction: column;
+
+
+        }
+
+        .container-login a,
+        .container-login a:visited,
+        .container-login a:target {
+            color: #F2F2F2;
+            text-decoration: none;
+        }
+
+
     form {
         background-color: rgba(128, 128, 128, 0.253);
         width: 50%;
@@ -32,6 +86,7 @@
         border-radius: 10px;
         box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4);
         text-align: center;
+        margin-top: 100px;
     }
 
     fieldset {
@@ -58,7 +113,29 @@
 </style>
 
 <body>
-    <form action="{% url 'form_produto' %}" method="post" enctype="multipart/form-data">
+    <header>
+        <section class="barra-menu">
+            <article class="menu">
+                <img id="img" src="/static/img/linux-removebg-preview.png" class="logo-img" alt="logo">
+                <a href="{% url 'lista_produtos' %}">Início 🏛</a>
+                <a href="#">Produtos 👜</a>
+                <a href="#">Carrinho 🛒</a>
+                <a href="{% url 'formulario' %}">Mais ⚙</a>
+            </article>
+        </section>
+        <section class="container-login ms-auto me-4 text-end">
+            <a href="{% url 'login' %}">
+                <i class="bi bi-person"></i>
+                Login
+            </a>
+
+            <a href="{% url 'cadastro_cliente' %}">
+                <i class="bi bi-file-text"></i>
+                Cadastre-se
+            </a>
+        </section>
+    </header>
+    <form action="{% url 'cadastro_produto' %}" method="post" enctype="multipart/form-data">
         <!-- Inclui o token de segurança do Django para evitar ataques CSRF -->
         {% csrf_token %}
 
@@ -93,7 +170,8 @@
             <input type="file" id="imagem" name="imagem3" required><br><br>
         </fieldset>
         <input class="btn btn-primary" type="submit" value="Cadastrar Produto">
-        <a href="{% url 'lista_produtos' %}"><input class="btn btn-primary" type="button" value="Voltar para o Menu"></a>
+        <a href="{% url 'lista_produtos' %}"><input class="btn btn-primary" type="button"
+                value="Voltar para o Menu"></a>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
