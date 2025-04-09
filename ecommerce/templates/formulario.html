@@ -81,7 +81,7 @@
 </style>
 
 <body>
-    <h1>MENU DE FORMULARIO</h1>
+    <h1>FORMULARIOS DA GERENCIA</h1>
     <form action="" method="post">
         {% csrf_token %}
         <fieldset>
@@ -90,7 +90,7 @@
             <button type="submit" name="escolha" value="cliente">Cadastrar Cliente</button>            
             <button><a href="{% url 'atualizar_produto' %}">Atualizar Produtos</a></button>
             <button><a href="{% url 'lista_produtos' %}">Lista de Produtos</a></button>
-            <button><a href="{% url 'lista_clientes' %}">Lista de Clientes</a></button>
+            <button><a href="{% url 'perfilcliente' %}">Lista de Clientes</a></button>
             <button><a href="{% url 'adm_estoque' %}">Estoque de Produtos</a></button>
         </fieldset>
     </form>

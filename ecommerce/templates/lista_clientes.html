@@ -53,9 +53,14 @@
                 {% for cliente in clientes %}
                 <li>
                     Nome: {{ cliente.nome }} <br>
+                    E-mai: {{ cliente.email }} <br>
                     Telefone: {{ cliente.telefone }} <br>
-                    Endereço: {{ cliente.endereco }} <br>
-                    Cidade: {{ cliente.cidade }}
+                    CPF: {{ cliente.cpf}} <br>
+                    Número/casa: {{ cliente.numero_casa }} <br>
+                    CEP: {{ cliente.cep }} <br>
+                    Rua: {{ cliente.rua }} <br>
+                    Estado: {{ cliente.estado }} <br>
+                    Cidade: {{ cliente.cidade }} <br>
                     <br><br>
                 </li>
                 {% endfor %}

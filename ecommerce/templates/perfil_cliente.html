@@ -1,0 +1,50 @@
+<!-- templates/perfilCliente.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil do Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .info {
+            margin-bottom: 1rem;
+        }
+        .info strong {
+            display: inline-block;
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Perfil do Cliente</h2>
+
+        <div class="info"><strong>Nome:</strong> {{ endereco.nome }} {{ endereco.sobrenome }}</div>
+        <div class="info"><strong>Email:</strong> {{ endereco.email }}</div>
+        <div class="info"><strong>Telefone:</strong> {{ endereco.telefone }}</div>
+        <div class="info"><strong>CPF:</strong> {{ cliente.cpf }}</div>
+        <div class="info"><strong>Data de Nascimento:</strong> {{ cliente.dataNascimento|date:"d/m/Y" }}</div>
+
+        <h3>Endereço</h3>
+        <div class="info"><strong>Rua:</strong> {{ endereco.rua }}, {{ endereco.numero_casa }}</div>
+        <div class="info"><strong>CEP:</strong> {{ endereco.cep }}</div>
+        <div class="info"><strong>Cidade:</strong> {{ endereco.cidade }}</div>
+        <div class="info"><strong>Estado:</strong> {{ endereco.estado }}</div>
+    </div>
+</body>
+</html>

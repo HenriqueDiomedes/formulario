@@ -1,11 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from decimal import Decimal, InvalidOperation
 from django.http import HttpResponse
 from .models import Produto
-from .models import Cliente
+from .models import Cliente, Endereco
+
+#função para permisão de administrador
+def verificar_grupo(usuario):
+    return usuario.groups.filter(name='funcionario').exists()
 
 
- # sobre prooduto (tela de cadastro de produtos)
+#Funções sobre produtos:
+
+
+#função para cadastrar produtos
+@user_passes_test(verificar_grupo)
 def cadastroProduto(request):
     if request.method == 'POST':
         print("Dados recebidos com sucesso")
@@ -34,7 +46,17 @@ def cadastroProduto(request):
     return render(request, 'cadastro_produto.html')
 
 
-# mostrar a lista de produtos(tela inicial)
+
+
+
+
+
+
+
+
+ # sobre prooduto (tela de cadastro de produtos)
+
+# função que mostra a lista dos produtos(tela inicial)
 def lista_Produtos(request):
     nome_produto = request.GET.get('nome_produto')
     valor_min = request.GET.get('valor_min')
@@ -68,7 +90,7 @@ def lista_Produtos(request):
 
     return render(request, 'lista_produtos.html', {'produtos': produtos})
 
-# detalhes do produto (tela de detalhes do produto)
+#função que mostra os detalhes do produto
 def detalhesProduto(request, id):
     print(id)
     produto = get_object_or_404(Produto, pk=id)
@@ -83,22 +105,21 @@ def detalhesProduto(request, id):
 
     return render(request, "detalhes_produto.html", {"produto": produto, "imagens": imagens})
 
-# atualizar produto (tela de atualização dos dados do produto)
-from decimal import Decimal, InvalidOperation
-
-# Adm produto
+#fução que mostra o estoque de produtos(com osções de cadastrar/atualizar/deletar)
+@user_passes_test(verificar_grupo)
 def admEstoque(request):
     produtos = Produto.objects.all()
     return render(request, 'adm_estoque.html', {'produtos': produtos})
 
-#Deletar algum produto
+#função para deletar algum produto
 def deletarProduto(request, id):
     produto = get_object_or_404(Produto, pk=id)
     produto.delete()
 
     return redirect('adm_estoque')
 
-# Atualizar os produtos
+# função para atualizar um produto selecionado
+@user_passes_test(verificar_grupo)
 def atualizarProduto(request):
     produto = None  # Inicializa a variável para evitar erro caso o ID não seja encontrado
 
@@ -148,10 +169,93 @@ def atualizarProduto(request):
             produto.imagem3 = request.FILES['imagem3']
 
         produto.save()
+        return redirect('adm_estoque')
 
     return render(request, "atualizar_produto.html", {"produto": produto})
 
  # sobre clientes (tela de cadastro de clientes)
+
+
+
+#funções sobre clientes
+
+#função para cadastrar clientes
+def cadastroCliente(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        sobrenome = request.POST.get('sobrenome')
+        email = request.POST.get('email')
+        senha = request.POST.get('senha')
+        dataNascimento = request.POST.get('dataNascimento')
+        telefone = request.POST.get('telefone')
+        cpf = request.POST.get('cpf')
+        numeroCasa = request.POST.get('numeroCasa')
+        cep = request.POST.get('cep')
+        rua = request.POST.get('rua')
+        estado = request.POST.get('estado')
+        cidade = request.POST.get('cidade')
+
+        # Criar usuário (User do Django)
+        usuario = User.objects.create_user(username=email, email=email, password=senha)
+        usuario.first_name = nome
+        usuario.last_name = sobrenome
+        usuario.save()
+
+        # Criar cliente
+        Cliente.objects.create(
+            idUsuario=usuario,
+            cpf=cpf,
+            dataNascimento=dataNascimento
+        )
+
+        # Criar endereço
+        Endereco.objects.create(
+            idUsuario=usuario,
+            nome=nome,
+            sobrenome=sobrenome,
+            email=email,
+            telefone=telefone,          
+            numero_casa=numeroCasa,
+            cep=cep,
+            rua=rua,
+            cidade=cidade,
+            estado=estado
+        )
+
+        return redirect('login')
+
+    return render(request, 'cadastro_cliente.html')
+
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        senha = request.POST['senha']
+        user = authenticate(request, username=username, password=senha)
+        if user:
+            login(request, user)
+            return redirect('perfilCliente')
+    return render(request, 'login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+
+def perfilCliente(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+
+    cliente = Cliente.objects.get(idUsuario=request.user)
+    endereco = Endereco.objects.filter(idUsuario=request.user).first()
+
+    return render(request, 'perfilCliente.html', {'cliente': cliente,'endereco': endereco
+})
+
+#mostrar os clientes cadastrados 'repetida'
 def formCliente(request):
     if request.method == 'POST':
         print("Dados recebidos com sucesso")
@@ -172,43 +276,15 @@ def formCliente(request):
     return render(request, 'form_cliente.html')
 
  # sobre cadastrar os clientes (tela de cadastro de clientes)
-def cadastroCliente(request):
-    if request.method == 'POST':
-        print("Dados recebidos com sucesso")
 
-        nome = request.POST.get('nome')
-        email = request.POST.get('email')
-        telefone = request.POST.get('telefone')
-        cpf = request.POST.get('cpf')
-        numero_casa = request.POST.get('numero_casa')
-        cep = request.POST.get('cep')
-        rua = request.POST.get('rua')
-        cidade = request.POST.get('cidade')
-        estado = request.POST.get('estado')
-
-        cliente = Cliente()
-        cliente.nome = nome
-        cliente.email = email
-        cliente.telefone = telefone
-        cliente.cpf = cpf
-        cliente.numero_casa = numero_casa
-        cliente.cep = cep
-        cliente.rua = rua
-        cliente.cidade = cidade
-        cliente.estado = estado
-
-        cliente.save()
-
-    return render(request, 'cadastro_cliente.html')
-
-# mostrar a lista de clientes 
+# fção para mostrar a lista de clientes 
 def lista_Clientes(request):
     clientes = Cliente.objects.all()
     return render(request, 'lista_clientes.html', {'clientes': clientes})
 
 
-
 # acessar a página inicial ( tela Mais 'formularios')
+@user_passes_test(verificar_grupo)
 def formulario(request):
     if request.method == 'POST':
         escolha = request.POST.get('escolha')
@@ -218,12 +294,18 @@ def formulario(request):
             return redirect('cadastro_cliente')
         elif escolha == 'atualizar':
             return redirect('atualizar_produto')
+        elif escolha == 'perfil':
+            return redirect('perfilcliente')
         elif escolha == 'estoque':
             return redirect('adm_estoque')
         
     return render(request, 'formulario.html')
 
+#funções sobre vendas
+
+
 # formulario de pagamento
+@user_passes_test(verificar_grupo)
 def formularioPagamento(request):
     
     return render(request, 'formulario_pagamento.html')
@@ -232,7 +314,7 @@ def Carrinho(request):
     
     return render(request,'carrinho.html')
 
-# Tela de login
+# função para a tela de login
 def login(request):   
     if request.method == "POST":
         email = request.POST.get("email")

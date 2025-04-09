@@ -138,11 +138,41 @@
                 <td>
                     <a id="att" class="atualizar-btn"
                         href="{% url 'atualizar_produto' %}?id_produto={{ produto.id }}">Atualizar</a>
-                    <a id="del" class="delete-btn" href="{% url 'deletar_produto' produto.id %}">Deletar</a>
+                    <a id="del" class="delete-btn"
+                    <button class="delete-btn" onclick="confirmarExclusao('{{ produto.id }}')"></button>
+
+                        Deletar
+                    </a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmarExclusao(produtoId) {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você está prestes a excluir esse produto.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e60000',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sim, deletar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/produto/deletar/${produtoId}/`;
+            }
+        });
+    }
+</script>
+
+
 {% endblock %}

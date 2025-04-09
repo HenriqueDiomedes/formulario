@@ -34,13 +34,19 @@ urlpatterns = [
     path('pagamento', views.formularioPagamento, name='formulario_pagamento'),
     path('carrinho', views.Carrinho, name='carrinho'),
 
-    # cliente
-    path('cliente/cadastro', views.cadastroCliente, name='cadastro_cliente'),
-    path('cliente/', views.formCliente, name='form_cliente'),
-    path('clientes/', views.lista_Clientes, name='lista_clientes'),
+    # loin
+    path('cadastro', views.cadastroCliente, name='cadastro_cliente'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+
+    # pos login
+    path('perfil', views.perfilCliente, name='perfilcliente'),
+
 
     #login e autenticação
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('logout/', LogoutView.as_view(next_page='lista_produtos'), name='logout'),
     path('formulario', views.formulario, name='formulario'),
 
@@ -52,7 +58,6 @@ urlpatterns = [
 
 
 
-    path('admin/', admin.site.urls),
 
 ]
 
