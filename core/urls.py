@@ -32,7 +32,14 @@ urlpatterns = [
 
     #pagamento
     path('pagamento', views.formularioPagamento, name='formulario_pagamento'),
-    path('carrinho', views.Carrinho, name='carrinho'),
+
+    #carrinho
+    path('carrinho/', views.exibir_carrinho, name='exibir_carrinho'),
+    path('adicionar/<int:produto_id>/', views.adicionar_ao_carrinho, name='adicionar_ao_carrinho'),
+    path('remover/<int:produto_id>/', views.remover_do_carrinho, name='remover_do_carrinho'),
+    path('carrinho/aumentar/<int:produto_id>/', views.aumentar_quantidade, name='aumentar_quantidade'),
+    path('carrinho/diminuir/<int:produto_id>/', views.diminuir_quantidade, name='diminuir_quantidade'),
+
 
     # loin
     path('cadastro', views.cadastroCliente, name='cadastro_cliente'),

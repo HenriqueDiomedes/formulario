@@ -310,9 +310,92 @@ def formularioPagamento(request):
     
     return render(request, 'formulario_pagamento.html')
 
-def Carrinho(request):
-    
-    return render(request,'carrinho.html')
+#formulario para adicionar produto ao carrinho
+def adicionar_ao_carrinho(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    carrinho = request.session.get('carrinho', {})
+
+    if str(produto_id) in carrinho:
+        carrinho[str(produto_id)]['quantidade'] += 1
+    else:
+        carrinho[str(produto_id)] = {
+            'nome': produto.nome,
+            'preco': float(produto.preco),
+            'quantidade': 1,
+            'imagem': produto.imagem1.url if produto.imagem1 else '/static/img/sem-imagem1.png',
+        }
+
+    request.session['carrinho'] = carrinho
+    return redirect('exibir_carrinho')
+
+#formulario para remover produto do carrinho
+def remover_do_carrinho(request, produto_id):
+    carrinho = request.session.get('carrinho', {})
+    if str(produto_id) in carrinho:
+        del carrinho[str(produto_id)]
+        request.session['carrinho'] = carrinho
+    return redirect('exibir_carrinho')
+
+#formulario para exibir produto no carrinho
+def exibir_carrinho(request):
+    carrinho = request.session.get('carrinho', {})
+    produtos = []
+    total_geral = 0
+
+    for produto_id, item in carrinho.items():
+        try:
+            produto = Produto.objects.get(id=produto_id)
+            quantidade = item['quantidade']
+            subtotal = produto.preco * quantidade
+            total_geral += subtotal
+            produtos.append({
+                'id': produto.id,
+                'nome': produto.nome,
+                'preco': produto.preco,
+                'imagem1': produto.imagem1.url if produto.imagem1 else '',
+                'quantidade': quantidade,
+                'subtotal': subtotal,
+            })
+        except Produto.DoesNotExist:
+            pass  # Produto foi deletado, ignora
+
+    return render(request, 'carrinho.html', {
+        'produtos': produtos,
+        'total_geral': total_geral
+    })
+
+
+
+#aumentar quantidade de produtos no carrinho
+def aumentar_quantidade(request, produto_id):
+    carrinho = request.session.get('carrinho', {})
+    if str(produto_id) in carrinho:
+        carrinho[str(produto_id)]['quantidade'] += 1
+    request.session['carrinho'] = carrinho
+    return redirect('exibir_carrinho')
+
+
+#diminr quantidade de produtos no carrinho
+def diminuir_quantidade(request, produto_id):
+    carrinho = request.session.get('carrinho', {})
+    if str(produto_id) in carrinho:
+        if carrinho[str(produto_id)]['quantidade'] > 1:
+            carrinho[str(produto_id)]['quantidade'] -= 1
+        else:
+            del carrinho[str(produto_id)]
+    request.session['carrinho'] = carrinho
+    return redirect('exibir_carrinho')
+
+
+
+
+
+
+
+
+
+
+
 
 # função para a tela de login
 def login(request):   

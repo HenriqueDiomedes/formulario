@@ -114,8 +114,7 @@
             <h2>{{ produto.nome }}</h2>
             <h3>R$ {{ produto.preco }}</h3>
             <p>{{ produto.descricao }}</p>
-            <a class="btn btn-primary" href="{% url 'formulario_pagamento' %}">Comprar agora</a>
-            <button class="btn btn-primary">🛒 Adicionar ao carrinho</button>
+            <a class="btn btn-primary" href="{% url 'adicionar_ao_carrinho' produto.id %}">🛒 Adicionar ao carrinho</a>
         </div>
     </div>
 
