@@ -114,7 +114,6 @@
 
     .acoes {
         display: flex;
-        flex-direction: column;
         gap: 5px;
         font-size: 14px;
     }
@@ -122,6 +121,8 @@
     .acoes a {
         color: #d70000;
         text-decoration: none;
+        text-align: center;
+        justify-content: center;
     }
 
     .acoes a:hover {
@@ -139,7 +140,6 @@
                 <th>Produto</th>
                 <th>Preço Unitário</th>
                 <th>Quantidade</th>
-                <th>Preço Total</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -151,11 +151,10 @@
                     <img src="{{ produto.imagem1 }}" alt="Imagem do Produto">
                     <div class="detalhes">
                         <div class="nome">{{ produto.nome }}</div>
-                        <div class="variacao">Marca: {{ produto.marca }}</div>
                     </div>
                 </td>
                 <td>
-                    <span class="preco-novo">R$ {{ produto.valor }}</span>
+                    <span class="preco-novo">R$ {{ produto.preco }}</span>
                 </td>
                 <td>
                     <div class="quantidade">
@@ -164,11 +163,7 @@
                         <a href="{% url 'aumentar_quantidade' produto.id %}">+</a>
                     </div>
                 </td>
-                <td>
-                    <span class="preco-novo">
-                        R$ {{ produto.valor|floatformat:2|add:"0"|floatformat:"2" }}
-                    </span>
-                </td>
+
                 <td class="acoes">
                     <a href="{% url 'remover_do_carrinho' produto.id %}">Remover</a>
                 </td>

@@ -16,9 +16,6 @@ class Cliente(models.Model):
     idUsuario = models.ForeignKey(User, on_delete=models.CASCADE)
     cpf = models.CharField(max_length=14, default='000.000.000-00')
     dataNascimento = models.DateField(null=True, blank=True)
-
-class Endereco(models.Model):
-    idUsuario = models.ForeignKey(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100, default='Nome Desconhecido')
     sobrenome = models.CharField(max_length=100, default='Sobrenome')
     email = models.CharField(max_length=50, default='email@exemplo.com')

@@ -42,12 +42,15 @@ urlpatterns = [
 
 
     # loin
-    path('cadastro', views.cadastroCliente, name='cadastro_cliente'),
+    path('cadastro_cliente/', views.cadastroCliente, name='cadastro_cliente'),
+    path('cliente/atualizar/', views.atualizarCliente, name='atualizar_cliente'),
+    path('excluir-conta/', views.excluirConta, name='excluir_conta'),
+    path('perfil', views.perfilCliente, name='perfil_cliente'),
+    path('adm_cliente/', views.adm_cliente, name='adm_cliente'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
 
     # pos login
-    path('perfil', views.perfilCliente, name='perfilcliente'),
 
 
     #login e autenticação

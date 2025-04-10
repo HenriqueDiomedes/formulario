@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from decimal import Decimal, InvalidOperation
 from django.http import HttpResponse
+from django.contrib import messages
 from .models import Produto
-from .models import Cliente, Endereco
+from .models import Cliente
 
 #função para permisão de administrador
 def verificar_grupo(usuario):
@@ -177,7 +178,7 @@ def atualizarProduto(request):
 
 
 
-#funções sobre clientes
+#FUNÇÕES SOBRE CLINTES
 
 #função para cadastrar clientes
 def cadastroCliente(request):
@@ -186,46 +187,104 @@ def cadastroCliente(request):
         sobrenome = request.POST.get('sobrenome')
         email = request.POST.get('email')
         senha = request.POST.get('senha')
-        dataNascimento = request.POST.get('dataNascimento')
-        telefone = request.POST.get('telefone')
-        cpf = request.POST.get('cpf')
-        numeroCasa = request.POST.get('numeroCasa')
-        cep = request.POST.get('cep')
-        rua = request.POST.get('rua')
-        estado = request.POST.get('estado')
-        cidade = request.POST.get('cidade')
+        confirmar_senha = request.POST.get('confirmar_senha')
 
-        # Criar usuário (User do Django)
+        if senha != confirmar_senha:
+            messages.error(request, 'As senhas não coincidem.')
+            return redirect('cadastro_cliente')
+
+        if User.objects.filter(username=email).exists():
+            messages.error(request, 'Já existe um usuário com este e-mail.')
+            return redirect('cadastro_cliente')
+
         usuario = User.objects.create_user(username=email, email=email, password=senha)
         usuario.first_name = nome
         usuario.last_name = sobrenome
         usuario.save()
 
-        # Criar cliente
-        Cliente.objects.create(
-            idUsuario=usuario,
-            cpf=cpf,
-            dataNascimento=dataNascimento
-        )
-
-        # Criar endereço
-        Endereco.objects.create(
+        cliente = Cliente(
             idUsuario=usuario,
             nome=nome,
             sobrenome=sobrenome,
             email=email,
-            telefone=telefone,          
-            numero_casa=numeroCasa,
-            cep=cep,
-            rua=rua,
-            cidade=cidade,
-            estado=estado
+            telefone=request.POST.get('telefone'),
+            cpf=request.POST.get('cpf'),
+            dataNascimento=request.POST.get('dataNascimento'),
+            cep=request.POST.get('cep'),
+            rua=request.POST.get('rua'),
+            numero_casa=request.POST.get('numero_casa'),
+            cidade=request.POST.get('cidade'),
+            estado=request.POST.get('estado')
         )
+        cliente.save()
 
-        return redirect('login')
+        return redirect('lista_produtos')
 
     return render(request, 'cadastro_cliente.html')
 
+#função para editar o cadastro do cliente
+def atualizarCliente(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    try:
+        cliente = Cliente.objects.get(idUsuario=request.user)
+    except Cliente.DoesNotExist:
+        return redirect('cadastro_cliente')  # Redireciona para o cadastro se ainda não existir
+
+    if request.method == 'POST':
+        cliente.nome = request.POST.get('nome')
+        cliente.sobrenome = request.POST.get('sobrenome')
+        cliente.email = request.POST.get('email')
+        cliente.telefone = request.POST.get('telefone')
+        cliente.cpf = request.POST.get('cpf')
+        cliente.dataNascimento = request.POST.get('dataNascimento')
+        cliente.rua = request.POST.get('rua')
+        cliente.numero_casa = request.POST.get('numeroCasa')
+        cliente.cep = request.POST.get('cep')
+        cliente.estado = request.POST.get('estado')
+        cliente.cidade = request.POST.get('cidade')
+        cliente.save()
+        return redirect('perfil_cliente')  # Redireciona para a página de perfil
+
+    return render(request, 'atualizar_cliente.html', {'cliente': cliente})
+
+#função de excluir cliente
+def excluirConta(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.method == 'POST':
+        user = request.user
+        try:
+            cliente = Cliente.objects.get(idUsuario=user)
+            cliente.delete()
+        except Cliente.DoesNotExist:
+            pass
+        user.delete()  # Deleta o usuário do sistema
+        return redirect('login')  # Redireciona para a tela de login após a exclusão
+
+    return render(request, 'excluirConta.html')
+
+#função para chamar o administrador de clientes
+@user_passes_test(verificar_grupo)
+def adm_cliente(request):
+    clientes = Cliente.objects.all()  # Carrega todos os clientes do banco de dados
+
+    return render(request, 'adm_cliente.html', {'clientes': clientes})
+
+# função para exibir o perfil do cliente
+def perfilCliente(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    print(request.user)  # Verifique qual usuário está autenticado
+
+    try:
+        cliente = Cliente.objects.get(idUsuario=request.user)
+    except Cliente.DoesNotExist:
+        return redirect('cadastro_cliente')  # Se não encontrar, redireciona para o cadastro
+    print(cliente)  
+    return render(request, 'perfil_cliente.html', {'cliente': cliente})
 
 
 def login_view(request):
@@ -244,43 +303,8 @@ def logout_view(request):
     return redirect('login')
 
 
-def perfilCliente(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
 
 
-    cliente = Cliente.objects.get(idUsuario=request.user)
-    endereco = Endereco.objects.filter(idUsuario=request.user).first()
-
-    return render(request, 'perfilCliente.html', {'cliente': cliente,'endereco': endereco
-})
-
-#mostrar os clientes cadastrados 'repetida'
-def formCliente(request):
-    if request.method == 'POST':
-        print("Dados recebidos com sucesso")
-
-        nome = request.POST.get('nome')
-        telefone = request.POST.get('telefone')
-        endereco = request.POST.get('endereco')
-        cidade = request.POST.get('cidade')
-
-        cliente = Cliente()
-        cliente.nome = nome
-        cliente.telefone = telefone
-        cliente.endereco = endereco
-        cliente.cidade = cidade
-
-        cliente.save()
-
-    return render(request, 'form_cliente.html')
-
- # sobre cadastrar os clientes (tela de cadastro de clientes)
-
-# fção para mostrar a lista de clientes 
-def lista_Clientes(request):
-    clientes = Cliente.objects.all()
-    return render(request, 'lista_clientes.html', {'clientes': clientes})
 
 
 # acessar a página inicial ( tela Mais 'formularios')
@@ -301,8 +325,8 @@ def formulario(request):
         
     return render(request, 'formulario.html')
 
-#funções sobre vendas
 
+#FUNÇÕES SOBRE VENDAS
 
 # formulario de pagamento
 @user_passes_test(verificar_grupo)
@@ -364,8 +388,6 @@ def exibir_carrinho(request):
         'total_geral': total_geral
     })
 
-
-
 #aumentar quantidade de produtos no carrinho
 def aumentar_quantidade(request, produto_id):
     carrinho = request.session.get('carrinho', {})
@@ -373,7 +395,6 @@ def aumentar_quantidade(request, produto_id):
         carrinho[str(produto_id)]['quantidade'] += 1
     request.session['carrinho'] = carrinho
     return redirect('exibir_carrinho')
-
 
 #diminr quantidade de produtos no carrinho
 def diminuir_quantidade(request, produto_id):
@@ -405,6 +426,17 @@ def login(request):
 
     return render(request, 'registration/login.html')
  
+def perfilCliente(request):
+    return render(request,'perfil_cliente.html')
 
+def home(request):
+    return render(request,'home.html')
 
+@login_required
+def privado(request):
+    return render(request,'privado.html')
+
+@user_passes_test(verificar_grupo)
+def funcionario(request):
+    return render(request,'funcionario.html')
 
