@@ -4,113 +4,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro de Cliente</title>
+    <style>
+        body {
+            background-image: url(/static/img/FundoFormulariosIndex.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-family: 'font-1';
+            text-align: center;
+            color: red;
+            font-size: 4.5em;
+            text-shadow: 2px 4px 4px black;
+            padding: 5px;
+        }
+
+        main.conteiner-geral {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section#formulario-cliente {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        fieldset {
+            border-radius: 5px;
+            box-shadow: 2px 2px 7px black;
+        }
+
+        article.cliente,
+        article.endereco,
+        article.forma-pagamento {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        article.forma-pagamento {
+            border-bottom: none;
+        }
+
+        label {
+            font-weight: bold;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        input,
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-width: 500px;
+            margin-left: 0;
+            box-sizing: border-box; /* Evita que os inputs saiam do formulário */
+        }
+
+        button {
+            justify-content: center;
+            background-color: #28a745;
+            width: 150px;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            align-self: center;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        h2 {
+            font-size: 30px;
+            text-align: center;
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            main.conteiner-geral {
+                width: 90%;
+                padding: 15px;
+                max-width: 100%;
+            }
+
+            label {
+                width: 100%;
+                font-size: 1rem;
+            }
+
+            input,
+            select {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            main.conteiner-geral {
+                width: 95%;
+                padding: 10px;
+            }
+
+            label {
+                font-size: 0.9rem;
+            }
+
+            input,
+            select {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-<style>
-    body {
-        background-image: url(/static/img/FundoFormulariosIndex.jpg);
-        background-size: 100% 100%;
-        /* cobre toda a tela */
-        background-position: center;
-        /* centraliza a imagem */
-        background-repeat: no-repeat;
-        /* não repete a imagem */
-        background-attachment: fixed;
-        /* fixa a imagem na tela */
-        padding-top: 50px;
-        font-family: Arial, sans-serif;
-    }
-
-    main.conteiner-geral {
-        width: 80%;
-        max-width: 600px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        font-family: 'font-1';
-        text-align: center;
-        color: red;
-        font-size: 4.5em;
-        text-shadow: 2px 4px 4px black;
-        padding: 5px;
-    }
-
-    section#formulario-cliente {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-    }
-
-    fieldset {
-        border-radius: 5px;
-        box-shadow: 2px 2px 7px black;
-    }
-
-    article.cliente,
-    article.endereco,
-    article.forma-pagamento {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        border-bottom: 1px solid #ccc;
-    }
-
-    article.forma-pagamento {
-        border-bottom: none;
-    }
-
-    label {
-        font-weight: bold;
-        width: 150px;
-        text-align: left;
-        margin-bottom: 5px;
-        display: inline-block;
-    }
-
-    input,
-    select {
-        padding: 8px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        width: 500px;
-        display: inline-block;
-        margin-left: 10px;
-    }
-
-    button {
-        justify-content: center;
-        background-color: #28a745;
-        width: 150px;
-        color: white;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    button:hover {
-        background-color: #218838;
-    }
-
-    h2 {
-        font-size: 30px;
-        text-align: center;
-    }
-</style>
 
 <body>
     <h1>CADASTRO DE CLIENTE</h1>

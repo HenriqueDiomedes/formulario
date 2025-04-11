@@ -28,17 +28,14 @@
             background-color: #333333e0;
             color: #fff;
             display: flex;
-            position: absolute;
+            justify-content: space-between;
             align-items: center;
+            padding: 10px 20px;
+            position: absolute;
             width: 100%;
             z-index: 1000;
             top: 0;
             left: 0;
-        }
-
-        .barra-menu {
-            display: flex;
-            padding: 10px 20px;
         }
 
         .menu a {
@@ -60,8 +57,8 @@
 
         .container-login {
             display: flex;
-            justify-content: center;
-            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
 
         .container-login a,
@@ -73,7 +70,7 @@
 
         .conteudo-principal {
             flex: 1;
-            margin-top: 30px;
+            margin-top: 140px;
             padding: 20px;
         }
 
@@ -89,7 +86,6 @@
             color: white;
             text-decoration: none;
             font-size: 18px;
-            height: 15px;
             margin-left: 20px;
         }
 
@@ -99,7 +95,6 @@
             padding-bottom: 3px;
         }
 
-        /* Ajustando a área do menu do usuário */
         .dropdown-menu {
             background: transparent;
             border: none;
@@ -116,21 +111,53 @@
             text-align: left;
         }
 
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            .menu {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu a {
+                margin-left: 0;
+                font-size: 16px;
+            }
+
+            #img {
+                height: 80px;
+                width: 70px;
+                margin: 0 auto 10px;
+            }
+
+            .container-login {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .dropdown-menu {
+                position: static !important;
+                float: none;
+            }
+        }
     </style>
 </head>
 
 <body>
     <header>
-        <section class="barra-menu">
-            <article class="menu d-flex align-items-center">
-                <img id="img" src="/static/img/linux-removebg-preview.png" class="logo-img" alt="logo">
-                <a href="{% url 'lista_produtos' %}">Início 🏛</a>
-                <a href="{% url 'exibir_carrinho' %}">Carrinho 🛒</a>
-                <a href="{% url 'formulario' %}">Mais ⚙</a>
-            </article>
-        </section>
+        <div class="menu d-flex align-items-center">
+            <img id="img" src="{% static 'img/linux-removebg-preview.png' %}" class="logo-img" alt="logo">
+            <a href="{% url 'lista_produtos' %}">Início 🏛</a>
+            <a href="{% url 'exibir_carrinho' %}">Carrinho 🛒</a>
+            <a href="{% url 'formulario' %}">Mais ⚙</a>
+        </div>
 
-        <section class="container-login ms-auto me-4 text-end">
+        <div class="container-login d-flex justify-content-end align-items-center">
             {% if request.user.is_authenticated %}
             <div class="dropdown">
                 <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" aria-expanded="false">
@@ -162,7 +189,7 @@
                 </a>
             </div>
             {% endif %}
-        </section>
+        </div>
     </header>
 
     <main class="conteudo-principal">
@@ -173,13 +200,12 @@
     <footer>
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <p>Contato: </p>
-            <li class="nav-item"><a href="https://github.com/HenriqueDiomedes" class="bi bi-github">  HenriqueDiomedes</a></li>
+            <li class="nav-item"><a href="https://github.com/HenriqueDiomedes" class="bi bi-github"> HenriqueDiomedes</a></li>
         </ul>
         <p class="texto">© 2025 Diomedes, Inc</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
 </body>
 
 </html>

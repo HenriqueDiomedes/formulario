@@ -138,21 +138,6 @@
 
 {% block content %}
 
-<div class="search-bar">
-    <input type="text" placeholder="Digite o nome do produto">
-    <div class="filter-dropdown">
-        <select>
-            <option>Filtrar</option>
-            <option value="1">Nome - Crescente 🔤↑</option>
-            <option value="2">Valor - Crescente $↑</option>
-            <option value="3">Nome - Decrescente 🔤↓</option>
-            <option value="4">Valor - Decrescente $↓</option>
-        </select>
-    </div>
-    <input type="number" placeholder="Valor mínimo">
-    <input type="number" placeholder="Valor máximo">
-    <button>Pesquisar</button>
-</div>
 
 <div class="container-produto">
     {% for produto in produtos %}
